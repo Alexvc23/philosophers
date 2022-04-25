@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 09:45:11 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/25 10:51:02 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/04/25 16:16:43 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,15 @@ struct s_philos
 
 // ─── FUNCTIONS ──────────────────────────────────────────────────────────────
 
-int ft_strncmp(const char *s1, const char *s2, size_t n);
-int ft_atoi(const char *str);
-uint64_t ft_get_time(void);
-    
+int         ft_strncmp(const char *s1, const char *s2, size_t n);
+int         ft_atoi(const char *str);
+uint64_t    ft_get_time(void);
+int         ft_init_sim(int argc, char *argv[], t_simulation *sim);
+void        ft_init_phil(t_simulation *sim);
+void        ft_usleep(t_simulation *sim, uint64_t wait_time);
+void        ft_free_all(t_simulation *t);
+void        ft_check_death(t_simulation *sim);
+void        ft_launch_threads(t_simulation *sim);
+void        ft_msg(t_philos *p, const char *s);
+
 #endif

@@ -27,7 +27,8 @@ O_FILES = $(C_FILES:.c=.o)
 
 # ─── C FILES ───────────────────────────────────────────────────────
 	
-C_FILES	=	philosophers.c tool.c ft_atoi.c
+C_FILES	=	philosophers.c tools.c ft_atoi.c \
+			end_of_threads.c thread_lauch.c
 
 # ─── COLORS ────────────────────────────────────────────────────────
 	
