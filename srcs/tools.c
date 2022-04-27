@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tool.c                                             :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 10:58:55 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/25 15:15:01 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/04/27 10:43:15 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_msg(t_philos *p, const char *s)
 	uint64_t	time;
 
 	time = (ft_get_time() - p->sim->start_time);
-	printf("%lu %d %s \n", time, p->chair, s);
+	printf("%llu %d %s \n", time, p->chair, s);
 }
 
 /* Simulation varialbles inicialization which will be conencted to the philoso
@@ -89,7 +89,6 @@ void	ft_init_phil(t_simulation *sim)
 	while (++i < sim->nb_philos)
 	{
 		p = &sim->philos[i];
-		p->alive = 1;
 		p->last_dinner = sim->start_time;
 		p->chair = i + 1;
 		p->left_fork = &sim->forks[i];

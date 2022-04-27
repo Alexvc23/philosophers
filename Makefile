@@ -13,7 +13,7 @@ AT :=
 CC := gcc
 EXEC			:= philo 
 DIR_SRCS		:= srcs
-FLAGS			:= -g -Wall -Werror -Wextra -pthread
+FLAGS			:= -g -Wall -Werror -Wextra -pthread -fsanitize=thread
 DIR_OBJS		:= objs
 DIR_INCS		:= includes
 FILE_INCS		:= philosophers.h

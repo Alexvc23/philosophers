@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:01:02 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/25 15:01:24 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/04/27 10:54:12 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_check_vars(t_simulation *sim)
 
 	current_time = ft_get_time();
 	i = -1;
+	sim->phil_finished = 0;
 	while (++i < sim->nb_philos)
 	{
 		p = &sim->philos[i];
@@ -41,7 +42,6 @@ void	ft_check_death(t_simulation *sim)
 	while (1)
 	{
 		pthread_mutex_lock(&sim->c_status);
-		sim->phil_finished = 0;
 		if (!ft_check_vars(sim))
 		{
 			sim->end_of_simulation = 1;
