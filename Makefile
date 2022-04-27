@@ -13,8 +13,8 @@ AT :=
 CC := gcc
 EXEC			:= philo 
 DIR_SRCS		:= srcs
-FLAGS			:= -g -Wall -Werror -Wextra -pthread -fsanitize=thread
 DIR_OBJS		:= objs
+FLAGS			:= -g -Wall -Werror -Wextra 
 DIR_INCS		:= includes
 FILE_INCS		:= philosophers.h
 SRCS = 			$(addprefix $(DIR_SRCS)/,$(C_FILES))
