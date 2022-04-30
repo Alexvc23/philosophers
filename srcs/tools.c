@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 10:58:55 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/27 10:43:15 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:43:08 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,31 +69,31 @@ int	ft_init_sim(int argc, char *argv[], t_simulation *sim)
 	sim->end_of_simulation = 0;
 	if (argc == 6)
 		sim->nb_simu = ft_atoi(argv[5]);
-	sim->forks = calloc(sim->nb_philos, sizeof(pthread_mutex_t));
-	sim->philos = calloc(sim->nb_philos, sizeof(t_philos));
-	if (!sim->philos || !sim->forks)
-		return (write(2, "Error allocating memory 'Calloc'\n", 34));
-	pthread_mutex_init(&sim->c_status, NULL);
-	while (++i < sim->nb_philos)
-		pthread_mutex_init(&sim->forks[i], NULL);
 	return (0);
 }
 
 /* Philosopher's struct variables inicialization */
-void	ft_init_phil(t_simulation *sim)
+void	ft_init_vars(t_mutex *mutex, t_simulation *sim)
 {
 	int			i;
 	t_philos	*p;
 
 	i = -1;
+	mutex->sim = sim;
+	mutex->philos = calloc(sim->nb_philos, sizeof(t_philos));
+	mutex->forks = calloc(sim->nb_philos, sizeof(pthread_mutex_t));
+	mutex->tmp_philo = callo(1, sizeof(int));
+	if (!mutex->philos || !mutex->forks || !mutex->tmp_philo)
+		return (write(2, "Error allocating memory in mutex struct\n", 41));
 	while (++i < sim->nb_philos)
 	{
-		p = &sim->philos[i];
+		p = &mutex->philos[i];
 		p->last_dinner = sim->start_time;
 		p->chair = i + 1;
 		p->left_fork = &sim->forks[i];
 		p->right_fork = &sim->forks[(i + 1) % sim->nb_philos];
 		p->nb_sim = 0;
 		p->sim = sim;
+		pthread_mutex_init(&mutex->forks[i], NULL);
 	}
 }

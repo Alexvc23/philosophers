@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 09:45:11 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/26 18:21:34 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:32:48 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,23 @@
 
 typedef struct s_simulation	t_simulation;
 typedef struct s_philos		t_philos;
+typedef struct s_mutex		t_mutex;
 
+/* Structure allowing us to create a bridge between simulation struct,
+ array of structures philo which represents each philosopher and tmp_philo
+ pointer that will allow us to pass the philosopher's number to the executed
+ thread */
+struct s_mutex
+{
+	pthread_mutex_t *forks;
+	pthread_mutex_t c_status;
+	t_simulation	*sim;
+	t_philos		*philos;
+	int				*tmp_philo;
+};
+
+/* presents all the common variables shared by all the philosophers
+that doesn't need to be taken separately */
 struct	s_simulation
 {
 	uint64_t		start_time;
@@ -65,6 +81,7 @@ struct	s_simulation
 	t_philos		*philos;
 };
 
+/* structure representing each philosopher information */
 struct s_philos
 {
 	int				chair;

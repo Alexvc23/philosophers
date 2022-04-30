@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:40:05 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/26 18:40:07 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:42:43 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	ft_check_args(int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	t_simulation	sim;
+	t_mutex			mutex;
 
 	if (argc < 5 || argc > 6)
 	{
@@ -72,7 +73,7 @@ int	main(int argc, char *argv[])
 			return (1);
 		}
 		ft_init_sim(argc, argv, &sim);
-		ft_init_phil(&sim);
+		ft_init_vars(&mutex, &sim);
 		ft_launch_threads(&sim);
 		ft_free_all(&sim);
 	}
