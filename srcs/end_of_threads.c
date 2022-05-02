@@ -6,73 +6,73 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:01:02 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/27 10:54:12 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:08:46 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_check_vars(t_simulation *sim)
+int	ft_check_vars(t_mutex *mutex)
 {
 	t_philos	*p;
 	uint64_t	current_time;
 	int			i;
+	int			phil_finished;
 
 	current_time = ft_get_time();
 	i = -1;
-	sim->phil_finished = 0;
-	while (++i < sim->nb_philos)
+	phil_finished = 0;
+	while (++i < mutex->sim->nb_philos)
 	{
-		p = &sim->philos[i];
-		if (sim->nb_simu > -1 && (p->nb_sim >= sim->nb_simu))
-			sim->phil_finished += 1;
-		else if ((current_time - p->last_dinner) > sim->time_to_die)
+		p = &mutex->philos[i];
+		if (p->sim->nb_simu > -1 && (p->nb_sim >= p->sim->nb_simu))
+			phil_finished += 1;
+		else if ((current_time - p->last_dinner) > p->sim->time_to_die)
 		{
 			ft_msg(p, "died");
-			return (0);
+			return (1);
 		}
 	}
-	if (sim->nb_simu > -1 && sim->phil_finished >= sim->nb_philos)
-		return (0);
-	return (1);
+	if (p->sim->nb_simu > -1 && phil_finished >= p->sim->nb_philos)
+		return (1);
+	return (0);
 }
 
-void	ft_check_death(t_simulation *sim)
+void	ft_check_death(t_mutex *mutex)
 {
 	while (1)
 	{
-		pthread_mutex_lock(&sim->c_status);
-		if (!ft_check_vars(sim))
+		pthread_mutex_lock(&mutex->c_status);
+		if (ft_check_vars(mutex))
 		{
-			sim->end_of_simulation = 1;
-			pthread_mutex_unlock(&sim->c_status);
+			mutex->sim->end_of_simulation = 1;
+			pthread_mutex_unlock(&mutex->c_status);
 			break ;
 		}
-		pthread_mutex_unlock(&sim->c_status);
+		pthread_mutex_unlock(&mutex->c_status);
 	}
 }
 
-void	ft_free_all(t_simulation *t)
+void	ft_free_all(t_mutex *mutex)
 {
 	int			i;
 	t_philos	*p;
 
 	i = -1;
-	while (++i < t->nb_philos)
+	if (ft_end_of_sim(mutex))
 	{
-		p = &t->philos[i];
-		if (!p->id)
+		while (++i < mutex->sim->nb_philos)
 		{
+			p = &mutex->philos[i];
 			if (pthread_join(p->id, NULL))
-				printf("Error joining pthread %d\n", i);
+				printf("Error joining thread: %d\n", i);
 		}
+		i = -1;
+		while (++i < mutex->sim->nb_philos)
+			pthread_mutex_destroy(&mutex->sim->forks[i]);
+		if (mutex->sim->forks)
+			free(mutex->sim->forks);
+		if (mutex->philos)
+			free(mutex->philos);
 	}
-	i = -1;
-	while (++i < t->nb_philos)
-		pthread_mutex_destroy(&t->forks[i]);
-	pthread_mutex_destroy(&t->c_status);
-	if (t->forks)
-		free(t->forks);
-	if (t->philos)
-		free(t->philos);
 }

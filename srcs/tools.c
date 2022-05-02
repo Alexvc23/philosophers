@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 10:58:55 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/30 19:43:08 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/02 11:50:18 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_msg(t_philos *p, const char *s)
 	uint64_t	time;
 
 	time = (ft_get_time() - p->sim->start_time);
-	printf("%llu %d %s \n", time, p->chair, s);
+	printf("%lu %d %s \n", time, p->chair, s);
 }
 
 /* Simulation varialbles inicialization which will be conencted to the philoso
@@ -53,9 +53,6 @@ void	ft_msg(t_philos *p, const char *s)
    philosopher's behavior */
 int	ft_init_sim(int argc, char *argv[], t_simulation *sim)
 {
-	int	i;
-
-	i = -1;
 	sim->start_time = ft_get_time();
 	sim->nb_philos = ft_atoi(argv[1]);
 	sim->wait_time = 100;
@@ -73,7 +70,7 @@ int	ft_init_sim(int argc, char *argv[], t_simulation *sim)
 }
 
 /* Philosopher's struct variables inicialization */
-void	ft_init_vars(t_mutex *mutex, t_simulation *sim)
+int	ft_init_vars(t_mutex *mutex, t_simulation *sim)
 {
 	int			i;
 	t_philos	*p;
@@ -81,9 +78,9 @@ void	ft_init_vars(t_mutex *mutex, t_simulation *sim)
 	i = -1;
 	mutex->sim = sim;
 	mutex->philos = calloc(sim->nb_philos, sizeof(t_philos));
-	mutex->forks = calloc(sim->nb_philos, sizeof(pthread_mutex_t));
-	mutex->tmp_philo = callo(1, sizeof(int));
-	if (!mutex->philos || !mutex->forks || !mutex->tmp_philo)
+	mutex->sim->forks = calloc(sim->nb_philos, sizeof(pthread_mutex_t));
+	pthread_mutex_init(&mutex->c_status, NULL);
+	if (!mutex->philos || !mutex->sim->forks)
 		return (write(2, "Error allocating memory in mutex struct\n", 41));
 	while (++i < sim->nb_philos)
 	{
@@ -93,7 +90,9 @@ void	ft_init_vars(t_mutex *mutex, t_simulation *sim)
 		p->left_fork = &sim->forks[i];
 		p->right_fork = &sim->forks[(i + 1) % sim->nb_philos];
 		p->nb_sim = 0;
-		p->sim = sim;
-		pthread_mutex_init(&mutex->forks[i], NULL);
+		p->sim = mutex->sim;
+		p->mutex = mutex;
+		pthread_mutex_init(&mutex->sim->forks[i], NULL);
 	}
+	return (0);
 }

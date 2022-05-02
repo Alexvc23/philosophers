@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 09:45:11 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/30 19:32:48 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/02 13:37:00 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 
 /* write */
 # include <unistd.h>
-
 # define FORK 1
 # define EAT 2
 # define SLEEP 3 
@@ -56,11 +55,9 @@ typedef struct s_mutex		t_mutex;
  thread */
 struct s_mutex
 {
-	pthread_mutex_t *forks;
-	pthread_mutex_t c_status;
+	pthread_mutex_t	c_status;
 	t_simulation	*sim;
 	t_philos		*philos;
-	int				*tmp_philo;
 };
 
 /* presents all the common variables shared by all the philosophers
@@ -91,6 +88,7 @@ struct s_philos
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	t_simulation	*sim;
+	t_mutex			*mutex;
 };
 
 // ─── FUNCTIONS ──────────────────────────────────────────────────────────────
@@ -99,11 +97,12 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_atoi(const char *str);
 uint64_t	ft_get_time(void);
 int			ft_init_sim(int argc, char *argv[], t_simulation *sim);
-void		ft_init_phil(t_simulation *sim);
+int			ft_init_vars(t_mutex *mutex, t_simulation *sim);
 void		ft_usleep(t_simulation *sim, uint64_t wait_time);
-void		ft_free_all(t_simulation *t);
-void		ft_check_death(t_simulation *sim);
-void		ft_launch_threads(t_simulation *sim);
+void		ft_free_all(t_mutex *mutex);
+void		ft_check_death(t_mutex *mutex);
+void		ft_launch_threads(t_mutex *mutex);
 void		ft_msg(t_philos *p, const char *s);
+int			ft_end_of_sim(t_mutex *mutex);
 
 #endif

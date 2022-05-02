@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:40:05 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/30 19:42:43 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/01 10:53:25 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	main(int argc, char *argv[])
 		}
 		ft_init_sim(argc, argv, &sim);
 		ft_init_vars(&mutex, &sim);
-		ft_launch_threads(&sim);
-		ft_free_all(&sim);
+		ft_launch_threads(&mutex);
+		ft_free_all(&mutex);
 	}
 	return (0);
 }

@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_lauch.c                                     :+:      :+:    :+:   */
+/*   thread_launch.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:03:00 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/04/25 15:03:02 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:07:03 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philosophers.h"
 
+int	ft_end_of_sim(t_mutex *mutex)
+{
+	pthread_mutex_lock(&mutex->c_status);
+	if (mutex->sim->end_of_simulation == 1)
+	{
+		pthread_mutex_unlock(&mutex->c_status);
+		return (1);
+	}
+	pthread_mutex_unlock(&mutex->c_status);
+	return (0);
+}
+
 void	ft_set_up_action(t_philos *p, int s)
 {
-	pthread_mutex_lock(&p->sim->c_status);
+	pthread_mutex_lock(&p->mutex->c_status);
 	if (p->sim->end_of_simulation == 1)
 	{
-		pthread_mutex_unlock(&p->sim->c_status);
+		pthread_mutex_unlock(&p->mutex->c_status);
 		return ;
 	}
 	else if (s == FORK)
@@ -34,20 +46,20 @@ void	ft_set_up_action(t_philos *p, int s)
 		ft_msg(p, MSG_THINK);
 		p->nb_sim += 1;
 	}
-	pthread_mutex_unlock(&p->sim->c_status);
+	pthread_mutex_unlock(&p->mutex->c_status);
 }
 
-void	*ft_set_up_philo(void *p)
+void	*ft_set_up_philo(void *philo)
 {
 	t_philos	*tmp;
 
-	tmp = p;
+	tmp = (t_philos *)philo;
 	if (tmp->chair % 2 == 0)
 		ft_usleep(tmp->sim, tmp->sim->time_to_eat);
-	while (!tmp->sim->end_of_simulation)
+	while (!ft_end_of_sim(tmp->mutex))
 	{
 		pthread_mutex_lock(tmp->left_fork);
-		ft_set_up_action(p, FORK);
+		ft_set_up_action(tmp, FORK);
 		pthread_mutex_lock(tmp->right_fork);
 		ft_set_up_action(tmp, FORK);
 		ft_set_up_action(tmp, EAT);
@@ -61,25 +73,24 @@ void	*ft_set_up_philo(void *p)
 	return (NULL);
 }
 
-void	ft_launch_threads(t_simulation *sim)
+void	ft_launch_threads(t_mutex *mutex)
 {
 	t_philos	*p;
 	int			i;
 
 	i = -1;
-	sim->start_time = ft_get_time();
-	ft_init_phil(sim);
-	while (++i < sim->nb_philos)
+	mutex->sim->start_time = ft_get_time();
+	while (++i < mutex->sim->nb_philos)
 	{
-		p = &sim->philos[i];
-		if (pthread_create(&p->id, NULL, &ft_set_up_philo, (void *)p))
+		p = &mutex->philos[i];
+		if (pthread_create(&p->id, NULL, &ft_set_up_philo, p))
 		{
 			printf("Error creating pthread %d\n", i);
-			pthread_mutex_lock(&sim->c_status);
-			sim->end_of_simulation = 1;
-			pthread_mutex_unlock(&sim->c_status);
+			pthread_mutex_lock(&mutex->c_status);
+			mutex->sim->end_of_simulation = 1;
+			pthread_mutex_unlock(&mutex->c_status);
 			return ;
 		}
 	}
-	ft_check_death(sim);
+	ft_check_death(mutex);
 }
