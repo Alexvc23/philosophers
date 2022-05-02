@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:01:02 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/05/02 14:08:46 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:12:22 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_check_vars(t_mutex *mutex)
 			return (1);
 		}
 	}
-	if (p->sim->nb_simu > -1 && phil_finished >= p->sim->nb_philos)
+	if (p->sim->nb_simu > -1 && phil_finished == p->sim->nb_philos)
 		return (1);
 	return (0);
 }
