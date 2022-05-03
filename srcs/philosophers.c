@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:40:05 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/05/01 10:53:25 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/03 09:47:58 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ int	ft_check_args(int argc, char *argv[])
 		while (argv[i][++j])
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
-			{
-				write(2, "Wrong character provided: ", 26);
-				return (write(2, &argv[i][j], 1));
-			}
+				return (printf("Wrong character provided: %c\n", \
+							argv[i][j]));
 		}
 		if (argv[i][0] != '0')
 		{
 			check = ft_atoi(argv[i]);
 			if (!check)
-				return (1);
+				return (printf("Integer overflow\n"));
 		}
 	}
+	if (ft_atoi(argv[1]) > 200)
+		return (printf("We should not create more than 200 philosophers\n"));
 	return (0);
 }
 
