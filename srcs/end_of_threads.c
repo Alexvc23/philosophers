@@ -6,12 +6,15 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:01:02 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/05/02 15:12:22 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/05 07:43:01 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+/* functions executed during the main thread, veryfing everytime if
+number of simulations provided (times each philosopher should eat) is
+equal or greater than the argument provided, we verify all philosophers */ 
 int	ft_check_vars(t_mutex *mutex)
 {
 	t_philos	*p;
@@ -38,6 +41,8 @@ int	ft_check_vars(t_mutex *mutex)
 	return (0);
 }
 
+/* working along side ft_check_vars, we lock our simulation structure to 
+check number of simulation in a infinite loop */
 void	ft_check_death(t_mutex *mutex)
 {
 	while (1)
@@ -53,6 +58,7 @@ void	ft_check_death(t_mutex *mutex)
 	}
 }
 
+/* we join all lauched threads and free allocated resources */
 void	ft_free_all(t_mutex *mutex)
 {
 	int			i;
