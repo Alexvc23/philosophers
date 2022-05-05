@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:40:05 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/05/03 09:47:58 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/05 10:11:57 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	ft_usleep(t_simulation *sim, uint64_t wait_time)
 		usleep(sim->wait_time);
 }
 
+/* Checks if all arguments provided are integers, notifies if
+integer overflow */
 int	ft_check_args(int argc, char *argv[])
 {
 	int	i;

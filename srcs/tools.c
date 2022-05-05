@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 10:58:55 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/05/02 11:50:18 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/05 10:14:01 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (*ptr1 - *ptr2);
 }
 
+/* Allow us to get milliseconds since 01 jan 1970 */
 uint64_t	ft_get_time(void)
 {
 	uint64_t		milliseconds;
@@ -40,12 +41,13 @@ uint64_t	ft_get_time(void)
 	return (milliseconds);
 }
 
+/* Prints action message and time of execution */
 void	ft_msg(t_philos *p, const char *s)
 {
 	uint64_t	time;
 
 	time = (ft_get_time() - p->sim->start_time);
-	printf("%lu %d %s \n", time, p->chair, s);
+	printf("%llu %d %s \n", time, p->chair, s);
 }
 
 /* Simulation varialbles inicialization which will be conencted to the philoso
@@ -69,7 +71,7 @@ int	ft_init_sim(int argc, char *argv[], t_simulation *sim)
 	return (0);
 }
 
-/* Philosopher's struct variables inicialization */
+/* t_mutex and t_philo structure inicialization */
 int	ft_init_vars(t_mutex *mutex, t_simulation *sim)
 {
 	int			i;

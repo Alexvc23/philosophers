@@ -6,13 +6,13 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:03:00 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/05/05 07:53:58 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/05 10:05:07 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philosophers.h"
 
-/* allows to lock sumulation structures and verify if end of simulation */
+/* locks sumulation structures and verify if end of simulation */
 int	ft_end_of_sim(t_mutex *mutex)
 {
 	pthread_mutex_lock(&mutex->c_status);
@@ -25,6 +25,8 @@ int	ft_end_of_sim(t_mutex *mutex)
 	return (0);
 }
 
+/* Action to be taking, blocking simulation structure to avoid
+data races  */
 void	ft_set_up_action(t_philos *p, int s)
 {
 	pthread_mutex_lock(&p->mutex->c_status);
@@ -50,9 +52,11 @@ void	ft_set_up_action(t_philos *p, int s)
 	pthread_mutex_unlock(&p->mutex->c_status);
 }
 
-/* before executing the basic algorithm, even philsophers's chairs will sleep 
-eat time milliseconds before going ahead, in order to let odd philosopher 
-finish their execution and avoid deack lock(all philosophers bloking their left fork)  */
+/* before executing the basic algorithm, even philsophers's will sleep
+eat time milliseconds before going ahead, in order to let odd philosopher
+take their forks, finish their execution and avoid deack lock(all philosophers 
+bloking their left fork), then we take each fork, we eat, sleep and think with 
+its assigned time */
 void	*ft_set_up_philo(void *philo)
 {
 	t_philos	*tmp;
