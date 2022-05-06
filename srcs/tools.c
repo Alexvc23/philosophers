@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 10:58:55 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/05/05 10:14:01 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/06 11:27:13 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_msg(t_philos *p, const char *s)
 	uint64_t	time;
 
 	time = (ft_get_time() - p->sim->start_time);
-	printf("%llu %d %s \n", time, p->chair, s);
+	printf("%lu %d %s \n", time, p->chair, s);
 }
 
 /* Simulation varialbles inicialization which will be conencted to the philoso

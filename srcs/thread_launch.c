@@ -6,7 +6,7 @@
 /*   By: jvalenci <jvalenci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:03:00 by jvalenci          #+#    #+#             */
-/*   Updated: 2022/05/05 10:05:07 by jvalenci         ###   ########.fr       */
+/*   Updated: 2022/05/06 11:50:59 by jvalenci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,14 @@ void	*ft_set_up_philo(void *philo)
 
 	tmp = (t_philos *)philo;
 	if (tmp->chair % 2 == 0)
-		ft_usleep(tmp->sim, tmp->sim->time_to_eat);
+		ft_usleep(tmp->sim, 1);
 	while (!ft_end_of_sim(tmp->mutex))
 	{
+		ft_set_up_action(tmp, THINK);
 		pthread_mutex_lock(tmp->left_fork);
 		ft_set_up_action(tmp, FORK);
+		if (tmp->right_fork == tmp->left_fork)
+			return (NULL);
 		pthread_mutex_lock(tmp->right_fork);
 		ft_set_up_action(tmp, FORK);
 		ft_set_up_action(tmp, EAT);
@@ -76,7 +79,6 @@ void	*ft_set_up_philo(void *philo)
 		pthread_mutex_unlock(tmp->right_fork);
 		ft_set_up_action(tmp, SLEEP);
 		ft_usleep(tmp->sim, tmp->sim->time_to_sleep);
-		ft_set_up_action(tmp, THINK);
 	}
 	return (NULL);
 }
