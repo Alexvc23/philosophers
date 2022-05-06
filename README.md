@@ -1,5 +1,5 @@
 # Philosophers
-	
+
 This project allows us to understand the difference between processes and threads, how to work with the same memory space, how to manipulate threads and shared memory, understand what mutex and semaphores are. 
 
  
@@ -135,7 +135,7 @@ synopsis
 /* Funtion waits for the thread specified by thread to terminate. if
 that thread has already terminated, then thread_join() returns inmediately*/
 /* if we want to return something from our function used in pthread_create
-we can use the pthread_join function to the return this pointer, is there were the second
+we can use the pthread_join function to the return this pointer, is were the second
 argument of pthread_join will healp us */
 /* Return value - On success, pthread_join() returns 0; on error, it return an error number */
 
@@ -230,7 +230,7 @@ fist result or second result*/
 
 ### Personal conclusion over pthread_join
 
-in conclusion, pthread_join help us to wait until the specified thread has finished and to return a pointer from our routine if we needed it.
+in conclusion, pthread_join help us to wait until the specified thread has finished and to return a pointer from our routine if we need it.
 
 [How to pass arguments to and get results from threads. (pthread_create, pthread_join)](https://www.youtube.com/watch?v=It0OFCbbTJE)
 
