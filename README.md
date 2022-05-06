@@ -1,4 +1,4 @@
-Philosophers
+# Philosophers
 	
 This project allows us to understand the difference between processes and threads, how to work with the same memory space, how to manipulate threads and shared memory, understand what mutex and semaphores are. 
 
