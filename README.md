@@ -135,7 +135,7 @@ synopsis
 /* Funtion waits for the thread specified by thread to terminate. if
 that thread has already terminated, then thread_join() returns inmediately*/
 /* if we want to return something from our function used in pthread_create
-we can use the pthread_join function to the return this poiner, is there were the second
+we can use the pthread_join function to the return this pointer, is there were the second
 argument of pthread_join will healp us */
 /* Return value - On success, pthread_join() returns 0; on error, it return an error number */
 
